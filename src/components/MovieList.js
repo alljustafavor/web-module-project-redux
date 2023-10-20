@@ -34,7 +34,7 @@ const MovieList = (props) => {
 
 const mapStateToProps = state => {
     return {
-        movies: state.movies, // Assuming movies is the array of movies in your Redux state
+        movies: state.movies.movies,
     }
 }
 

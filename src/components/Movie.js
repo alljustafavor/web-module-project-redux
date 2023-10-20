@@ -2,13 +2,24 @@ import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteMovie } from '../actions/movieActions';
+import { addFavorite } from '../actions/favoritesActions';
 
 const Movie = (props) => {
     const { id } = useParams();
     const { push } = useHistory();
+    const { movies, displayFavorites, deleteMovie, addFavorite } = props
 
-    const movies = props.movies;
     const movie = movies.find(movie => movie.id === Number(id));
+
+    const handleDelete = () => {
+        deleteMovie(movie.id);
+        push("/movies")
+    }
+
+    const handleFavorite = () => {
+        addFavorite(movie);
+        push("/movies")
+    }
 
     return (<div className="modal-page col">
         <div className="modal-dialog">
@@ -39,12 +50,9 @@ const Movie = (props) => {
                         </section>
 
                         <section>
-                            <span className="m-2 btn btn-dark">Favorite</span>
+                            {props.displayFavorites && <span onClick={handleFavorite} className="m-2 btn btn-dark">Favorite</span>}
                             <span className="delete">
-                                <input onClick={() => {
-                                    props.deleteMovie(movie.id);
-                                    push('/movies'); // Use push from useHistory to navigate to a new route
-                                }} type="button" className="m-2 btn btn-danger" value="Delete" />
+                                <input onClick={handleDelete} type="button" className="m-2 btn btn-danger" value="Delete" />
                             </span>
                         </section>
                     </div>
@@ -56,8 +64,9 @@ const Movie = (props) => {
 
 const mapStateToProps = state => {
     return {
-        movies: state.movies
+        displayFavorites: state.favorites.displayFavorites,
+        movies: state.movies.movies
     }
 }
 
-export default connect(mapStateToProps, { deleteMovie })(Movie);
+export default connect(mapStateToProps, { deleteMovie, addFavorite })(Movie);
