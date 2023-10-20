@@ -6,7 +6,7 @@ const Movie = (props) => {
     const { id } = useParams();
     const { push } = useHistory();
 
-    const movies = [];
+    const movies = props.movies;
     const movie = movies.find(movie => movie.id === Number(id));
 
     return (<div className="modal-page col">
@@ -50,11 +50,7 @@ const Movie = (props) => {
 
 const mapStateToProps = state => {
     return {
-        title: state.title,
-        director: state.director,
-        metascore: state.metascore,
-        genre: state.genre,
-        description: state.description,
+        movies: state.movies, // Assuming movies is the array of movies in your Redux state
     }
 }
 

@@ -5,7 +5,7 @@ import MovieFooter from './MovieFooter';
 import { connect } from 'react-redux';
 
 const MovieList = (props) => {
-    const movies = [];
+    const movies = props.movies;
 
     return (
         <div className="col">
@@ -13,10 +13,10 @@ const MovieList = (props) => {
                 <thead>
                     <tr>
                         <th>{props.title}</th>
-                        <th>{props.Director}</th>
-                        <th>{props.Genre}</th>
-                        <th>{props.Metascore}</th>
-                        <th></th>
+                        <th>{props.director}</th>
+                        <th>{props.denre}</th>
+                        <th>{props.metascore}</th>
+                        <th>{props.description}</th>
                     </tr>
                 </thead>
 
@@ -34,12 +34,9 @@ const MovieList = (props) => {
 
 const mapStateToProps = state => {
     return {
-        title: state.title,
-        director: state.director,
-        metascore: state.metascore,
-        genre: state.genre,
-        description: state.description,
+        movies: state.movies, // Assuming movies is the array of movies in your Redux state
     }
 }
+
 
 export default connect(mapStateToProps,)(MovieList);
